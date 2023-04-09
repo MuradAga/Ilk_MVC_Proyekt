@@ -1,0 +1,25 @@
+﻿@using Ilk_MVC_Proyekt.Entites
+@model List<Category>
+
+<h1>ADD Product</h1>
+
+<form asp-controller="Product" asp-action="AddProduct">
+    <label>Product Name</label>
+    <input type="text" name="ProductName" placeholder="Product Name" />
+    <br />
+    <label>Product Stock</label>
+    <input type="number" name="ProductStock" placeholder="Product Stock" />
+    <br />
+    <label>Product Price</label>
+    <input type="number" name="ProductPrice" placeholder="Product Price" />
+    <br />
+    <select name="CategoryId">
+        <option value="0" hidden disabled selected>Choose category</option>
+        @foreach (var category in Model)
+        {
+            <option value="@category.CategoryId">@category.CategoryName</option>
+        }
+    </select>
+    <br />
+    <button type="submit">Add</button>
+</form>

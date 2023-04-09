@@ -1,0 +1,7 @@
+﻿
+<form asp-controller="Category" asp-action="UpdateCategory">
+    <label>Category Name</label>
+    <input type="hidden" value="@ViewBag.Category.CategoryId" name="id" />
+    <input type="text" value="@ViewBag.Category.CategoryName" name="name" />
+    <button type="submit">Update</button>
+</form>
