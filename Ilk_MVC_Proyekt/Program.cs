@@ -1,4 +1,6 @@
+using AutoMapper;
 using Ilk_MVC_Proyekt.Context;
+using Ilk_MVC_Proyekt.Models.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ilk_MVC_Proyekt
@@ -13,6 +15,14 @@ namespace Ilk_MVC_Proyekt
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ProductContext>(item => item.UseSqlServer("Server=Murad; Database=ProductDb; Trusted_Connection=True; TrustServerCertificate=True;"));
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new Automapper());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            builder.Services.AddSingleton(mapper);
 
             var app = builder.Build();
 
