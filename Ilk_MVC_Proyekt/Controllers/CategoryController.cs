@@ -24,12 +24,21 @@ namespace Ilk_MVC_Proyekt.Controllers
 
             return View();
         }
-        public IActionResult AddCategory(string categoryName)
+        public IActionResult AddCategory(IFormFile image, string categoryName)
         {
-            var category = new Category()
+            var category = new Category();
+            category.CategoryName = categoryName;
+
+            if (image != null)
             {
-                CategoryName = categoryName
-            };
+                string filename = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(image.FileName);
+                using (Stream stream = new FileStream("wwwroot/images/" + filename, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
+                category.ImageUrl = "~/images/" + filename;
+            }
+
             _context.Categories.Add(category);
             _context.SaveChanges();
 

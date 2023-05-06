@@ -1,9 +1,15 @@
 ﻿<h1>Category</h1>
 
-<form asp-controller="Category" asp-action="AddCategory">
+<form asp-controller="Category" asp-action="AddCategory" enctype="multipart/form-data">
+
     <label>Category Name</label>
     <input name="categoryName" placeholder="Category Name" />
+
+    <label>Image</label>
+    <input name="Image" type="file" placeholder="Şəkil daxil edin" required>
+
     <button type="submit">Add</button>
+
 </form>
 
 <br />
@@ -37,7 +43,7 @@
 <table class="table table-hover table-dark">
     <thead>
         <tr>
-            <th scope="col">Id</th>
+            <th scope="col">Şəkil</th>
             <th scope="col">Name</th>
             <th scope="col">Update</th>
             <th scope="col">Delete</th>
@@ -47,7 +53,7 @@
         @foreach (var item in ViewBag.Categories)
         {
             <tr>
-                <td scope="row">@item.CategoryId</td>
+                <td scope="row"><img src="@Url.Content(item.ImageUrl)" style="height: 80px; width: 80px; border-radius: 50%"/></td>
                 <td>@item.CategoryName</td>
                 <td><button onclick="location.href='@Url.Action("Update", "Category", new { id = item.CategoryId })'" class="btn btn-warning">Update</button></td>
                 <td><button onclick="location.href='@Url.Action("DeleteCategory", "Category", new { id = item.CategoryId })'" class="btn btn-danger">Delete</button></td>
