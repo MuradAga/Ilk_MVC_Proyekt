@@ -1,25 +1,26 @@
 ﻿using Ilk_MVC_Proyekt.Context;
 using Ilk_MVC_Proyekt.Entites;
+using Ilk_MVC_Proyekt.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ilk_MVC_Proyekt.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ProductContext _context;
-        public CategoryController(ProductContext context)
+        private readonly ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         public IActionResult Index()
         {
-            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Categories = _categoryService.GetCategories();
             return View();
         }
         public IActionResult Update(int id)
         {
-            var category = _context.Categories.FirstOrDefault(cat => cat.CategoryId == id);
+            var category = _categoryService.GetCategory(id);
             ViewBag.Category = category;
 
             return View();
@@ -39,35 +40,38 @@ namespace Ilk_MVC_Proyekt.Controllers
                 category.ImageUrl = "~/images/" + filename;
             }
 
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            _categoryService.AddCategory(category);
 
             return RedirectToAction("Index");
         }
         public IActionResult DeleteCategory(int id)
         {
-            var category = _context.Categories.FirstOrDefault(cat => cat.CategoryId == id);
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
+            _categoryService.RemoveCategory(id);
 
             return RedirectToAction("Index");
         }
-        public IActionResult UpdateCategory(int id, string name)
+        public IActionResult UpdateCategory(IFormFile image, int id, string name)
         {
-            var category = new Category()
+            var category = new Category();
+            category.CategoryId = id;
+            category.CategoryName = name;
+
+            if (image != null)
             {
-                CategoryId = id,
-                CategoryName = name
-            };
+                string filename = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(image.FileName);
+                using (Stream stream = new FileStream("wwwroot/images/" + filename, FileMode.Create))
+                {
+                    image.CopyTo(stream);
+                }
+                category.ImageUrl = "~/images/" + filename;
+            }
 
-            _context.Categories.Update(category);
-            _context.SaveChanges();
-
+            _categoryService.EditCategory(category);
             return RedirectToAction("Index");
         }
         public IActionResult SearchCategories(string text)
         {
-            ViewBag.Categories = _context.Categories.Where(c => c.CategoryName.Contains(text)).ToList();
+            ViewBag.Categories = _categoryService.SearchCategories(text);
             return View("Index");
         }
     }

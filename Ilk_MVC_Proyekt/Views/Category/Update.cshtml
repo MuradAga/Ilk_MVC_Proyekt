@@ -1,7 +1,15 @@
 ﻿
-<form asp-controller="Category" asp-action="UpdateCategory">
+<form asp-controller="Category" asp-action="UpdateCategory" enctype="multipart/form-data">
     <label>Category Name</label>
+
     <input type="hidden" value="@ViewBag.Category.CategoryId" name="id" />
     <input type="text" value="@ViewBag.Category.CategoryName" name="name" />
+
+    <label>Image</label>
+    <input name="Image" type="file" placeholder="Şəkil daxil edin" required>
+
     <button type="submit">Update</button>
 </form>
+
+
+<img src="@Url.Content(ViewBag.Category.ImageUrl)" style="height: 300px; width: 300px; border-radius: 50%"
