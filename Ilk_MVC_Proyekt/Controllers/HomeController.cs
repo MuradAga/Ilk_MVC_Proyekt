@@ -17,14 +17,6 @@ namespace Ilk_MVC_Proyekt.Controllers
         {
             return View();
         }
-
-        public IActionResult Profile(User user)
-        {
-            ViewBag.Name = user.Name;
-            ViewBag.Surname = user.Surname;
-            return View();
-        }
-
         public IActionResult Privacy()
         {
             return View();

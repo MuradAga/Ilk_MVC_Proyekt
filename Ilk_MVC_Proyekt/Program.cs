@@ -18,6 +18,7 @@ namespace Ilk_MVC_Proyekt
             builder.Services.AddDbContext<ProductContext>(item => item.UseSqlServer("Server=Murad; Database=ProductDb; Trusted_Connection=True; TrustServerCertificate=True;"));
 
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {

@@ -1,0 +1,14 @@
+﻿
+<h1>Login</h1>
+
+<form asp-controller="User" asp-action="Login">
+    <label>Username</label>
+    <input type="text" name="username" placeholder="Username" />
+    <br />
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Password" />
+    <br />
+    <br />
+    <button type="submit">Login</button>
+    @Html.ValidationMessage("LoginOnError", new { @style="color:red" })
+</form>
